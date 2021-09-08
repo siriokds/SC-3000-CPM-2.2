@@ -1,0 +1,10 @@
+del *.hex
+del *.ihx
+del *.lnk
+del *.lst
+del *.map
+del *.noi
+del *.rel
+del *.lk
+del *.asm
+del *.sym
