@@ -1,0 +1,41 @@
+Disk layout		Memory Layout	Description		Bytes	Sects
+
+0000 - 007F		FF00 - FF7F		Boot Loader		  128	    1 (includes first 128bytes of P2DOS)
+0080 - 0DFF		DC00 - E9FF		P2DOS (BDOS)	 3584	   14
+0E00 - 1DFF		EA00 - FC00		BIOS			 4096	   16
+1E00 - 1FFF		[Empty]
+2000 - 27FF		D300 - DBFF		CCP (Shell)		 2048		8
+
+3000 - 37FF						Directory		 2048		8 (64 entries x 32bytes/entry)
+
+
+
+B_DPB:	
+; 256 bytes/sector, 16 sectors/track, 40 tracks, 1 heads
+	.dw 32      ; (SPT) LSECTORS PER TRACK (32 logical-sectors * 128 bytes = 4096 bytes/track)
+	
+	.DB 3       ; (BSH) BLOCK SHIFT FACTOR; block size => 1024
+	.DB 7       ; (BLM) BLOCK MASK
+	
+	.DB 0       ; (EXM) NULL MASK
+	.dw 159     ; (DSM) DISK SIZE-1					Total bytes / block size = 160
+	.dw 63      ; (DRM) DIRECTORY MASK = DIR ENTRIES - 1
+
+	.DB 0xC0    ; (AL0) ALLOC 0
+	.DB 0x00    ; (AL1) ALLOC 1		; 0xC000 => 1100 0000 0000 0000 (first 2 bit => first 2 block reserved for dir => 2048)
+	.dw 16      ; (CKS) CHECK AREA SIZE	; Number of directory entries to check for disk change
+	.dw 3       ; (OFF) TRACK OFFSET	; Number of system reserved tracks at the beginning of the ( logical ) disk
+	
+
+# This definition is valid only on CpmtoolsGUI Ver.1.02 or later.
+diskdef SF7
+  seclen 256
+  tracks 40
+  sectrk 16
+  blocksize 1024
+  maxdir 64
+  skew 0
+  boottrk 3
+  os 2.2
+end
+

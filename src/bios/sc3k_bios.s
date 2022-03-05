@@ -178,7 +178,13 @@ int_end:
 ;BIOS_END_S:	.ascii "END."
 BIOS_END:
 
-.area HEADER (ABS)
+
+;-------------------------------------------
+; SCB AREA
+;-------------------------------------------
+;.area HEADER (ABS)
+.area	_SCB	(ABS)									; 0xFC00 - 0xFFFF
+	
 ; ==================================================
 
 ;* FDC
@@ -258,6 +264,4 @@ FDC_BUF_1::			.ds 128			; 128-byte buffer
 
 ;BIOS_END:			.ascii "END]"
 
-.area	_DATA
-.area _SCB
 
